@@ -1,0 +1,47 @@
+<div ng-controller="DashboardController as ctrl" >
+        <apostas-mensagem valor="ctrl.mensagem"></apostas-mensagem>
+        <br />
+        <h3>Listagem de Apostas</h3>
+        <form role="form" name="aposta-form" ng-submit="ctrl.buscar()">
+                <div class="form-group col-md-6" >
+                        <input class="form-control"  placeholder="Data Inicial" name="dataInicial" type="text" ng-model="ctrl.form.dataInicial" required />
+                </div>
+                <div class="form-group col-md-6" >
+                        <input class="form-control"  placeholder="Data Final" name="dataFinal" type="text" ng-model="ctrl.form.dataFinal" required />
+                </div>
+                <div class="form-group col-md-12" >
+                        <input class="form-control" placeholder="Descrição" name="descricao" type="text" ng-model="ctrl.form.descricao" />
+                </div>
+                <div class="form-group col-md-5" ></div>
+                <div class="form-group col-md-2" >
+                        <input type="submit" class="btn btn-lg btn-success btn-large" value="Filtrar" />
+                </div>
+        </form>
+        <table id="table_apostas" class="table table-bordered table-responsive">
+                <caption>Apostas:</caption>
+                <thead>
+                        <tr>
+                                <th>Descrição</th>
+                                <th>Data Final</th>
+                                <th>Venceu ?</th>
+                                <th>Ações</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <tr ng-repeat="aposta in ctrl.apostas">
+                                <td>{{aposta.descricao}}</td>
+                                <td>{{aposta.dateFinalizacao| date:'dd/MM/yyyy'}}</td>
+                                <td>-</td>
+                                <td>
+                                        <aposta-permissao id="div_perm_acoes_dash" papeis="ROLE_ADMIN">
+                                                <input type="button" class="btn btn-lg btn-info" value="Editar" ng-click="ctrl.editar(aposta.id)"/>
+                                                <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="ctrl.deletar(aposta.id)"/>
+                                        </aposta-permissao>
+                                </td>
+                        </tr>
+                </tbody>
+        </table>
+        <div ng-show="ctrl.apostas.length > 0">
+                <pagination boundary-links="true" items-per-page="ctrl.form.quantidadeRegistro" total-items="ctrl.totalItems" ng-model="ctrl.form.paginaAtual" max-size="ctrl.maxSize" class="pagination-sm paginate_button" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
+</div>

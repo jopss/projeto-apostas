@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html ng-app="app" ng-cloak >
+        <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+                <meta http-equiv="Content-Language" content="pt-br" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+                <title>Apostas Frontend</title>
+
+                <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="/node_modules/jquery-ui-dist/jquery-ui.min.css" rel="stylesheet"/>
+                <link href="/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+                <link href="/assets/css/sb-admin-2.css" rel="stylesheet"/>
+
+                <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+                <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+                <!--[if lt IE 9]>
+                    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+                    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+                <![endif]-->
+
+                <script src="/node_modules/angular/angular.min.js"></script>
+                <script src="/node_modules/angular-resource/angular-resource.min.js"></script>
+                <script src="/node_modules/angular-route/angular-route.min.js"></script>
+                <script src="/node_modules/angular-cookies/angular-cookies.min.js"></script>
+                <script src="/node_modules/moment/min/moment-with-locales.min.js"></script>
+                <script src="/node_modules/underscore/underscore-min.js"></script>
+                <script src="/node_modules/restangular/dist/restangular.min.js"></script>
+                <script src="/node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+                <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+                <script src="/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+                <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+
+                <script src="/app/app.js"></script>
+                <script src="/app/routes.js"></script>
+                <script src="/app/app.constants.js"></script>
+
+                <script src="/app/diretivas/mensagem.js"></script>
+                <script src="/app/diretivas/datepicker.js"></script>
+                <script src="/app/diretivas/permissao.js"></script>
+
+                <script src="/app/services/apostaService.js"></script>
+                <script src="/app/services/usuarioService.js"></script>
+                <script src="/app/services/loginService.js"></script>
+
+                <script src="/app/controller/appController.js"></script>
+                <script src="/app/controller/dashboardController.js"></script>
+                <script src="/app/controller/usuarioController.js"></script>
+                <script src="/app/controller/apostaController.js"></script>
+                <script src="/app/controller/loginController.js"></script>
+
+                <!-- Configurações padrões para bibliotecas -->
+                <script type="text/javascript">
+                    /* Desabilita o keydown da tecla ESC no Internet Explorer para que ao digitar Esc 2x os formulários não sejam limpos */
+                    $(document).ready(function () {
+                        $(document).keydown(function (event) {
+                            if (navigator.appName == "Microsoft Internet Explorer" && event.keyCode == 27) {
+                                return false;
+                            }
+                            return true;
+                        });
+                    });                
+                </script>
+        </head>
+
+        <body ng-controller="AppController as ctrl">
+                <div id="wrapper">
+                        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0px;">
+                                <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                                <span class="sr-only">Toggle navigation</span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                                <span class="icon-bar"></span>
+                                        </button>
+                                        <a class="navbar-brand" href="#/dashboard" style="font-size: 14;font-weight: bold;">
+                                                <img src="/assets/img/trevo.png" height="30px" style="display:inline;margin-right: 5px;" />Apostas
+                                        </a>
+                                </div>
+
+                                <ul class="nav navbar-top-links navbar-right">
+                                        <li class="dropdown">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-user">
+                                                        <li>
+                                                                <a href="#/usuario/buscar"><i class="fa fa-user fa-fw"></i> Perfil</a>
+                                                        </li>
+                                                        <li class="divider"></li>
+                                                        <li>
+                                                                <a href="/j_spring_security_logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                                                        </li>
+                                                </ul>
+                                        </li>
+                                </ul>
+
+                                <div class="navbar-default sidebar" role="navigation">
+                                        <div class="sidebar-nav navbar-collapse">
+                                                <ul class="nav" id="side-menu">
+                                                        <li>
+                                                                <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Principal</a>
+                                                        </li>
+                                                        <!-- <aposta-permissao id="div_perm_menu_aposta" papeis="ROLE_ADMIN"> -->
+                                                                <li>
+                                                                        <a href="#/aposta"><i class="fa fa-table fa-fw"></i> Nova Aposta</a>
+                                                                </li>
+                                                                <li>
+                                                                        <a href="#/usuario"><i class="fa fa-table fa-fw"></i>Cadastro de Usuário</a>
+                                                                </li>
+                                                        <!-- </aposta-permissao> -->
+
+                                                </ul>
+                                        </div>
+                                </div>
+                        </nav>
+
+                        <div id="page-wrapper">
+                                <div class="container-fluid">
+                                        <div class="row">
+                                                <div class="col-lg-12" ng-view>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+
+                </div>      
+                <div id="login_modal" class="modal fade">
+                        <div class="modal-dialog">
+                                <div class="modal-content">
+                                        <div class="modal-header">
+                                                <h4 class="modal-title">Por favor, logue-se novamente.</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                                <div class="row">
+                                                        <div class="col-md-12" ng-controller="LoginController as ctrl">
+                                                                <div id="div_mensagem_login" class="hide alert alert-danger">
+                                                                </div>
+                                                                <div class="panel panel-default">
+                                                                        <div class="panel-heading">
+                                                                                <h3 class="panel-title">Entre com seu Login</h3>
+                                                                        </div>
+                                                                        <div class="panel-body">
+                                                                                <form role="form" name="loginForm" ng-submit="ctrl.logar()">
+                                                                                        <fieldset>
+                                                                                                <div class="form-group">
+                                                                                                        <input id="usuarioForm" class="form-control" placeholder="Login" name="j_username" maxlength="30" type="text" autofocus ng-model="ctrl.login.j_username" required/>
+                                                                                                        <span ng-class="error" ng-show="ctrl.login.j_username.$error.required && ctrl.login.j_username.$dirty">Login é obrigatório</span>
+                                                                                                </div>
+                                                                                                <div class="form-group">
+                                                                                                        <input id="senhaHidden" class="form-control" placeholder="Senha" name="j_password" maxlength="30" type="password" ng-model="ctrl.login.j_password" required/>
+                                                                                                        <span ng-class="error" ng-show="ctrl.login.j_password.$error.required && ctrl.login.j_password.$dirty">Senha é obrigatória</span>
+                                                                                                </div>
+                                                                                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Vai">
+                                                                                        </fieldset>
+                                                                                </form>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+        </body>
+</html>

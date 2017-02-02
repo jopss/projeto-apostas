@@ -1,0 +1,70 @@
+<div ng-controller="ApostaController as ctrl">
+        <apostas-mensagem valor="ctrl.mensagem"></apostas-mensagem>
+        <br />
+        <form role="form" name="apostaForm" ng-submit="ctrl.salvar()">
+                <h3>Aposta</h3>
+                <fieldset>
+                        <div class="form-group col-md-12">
+                                <label class="control-label">Descrição</label>
+                                <input class="form-control" placeholder="Descrição" name="descricao" type="text" autofocus ng-model="ctrl.aposta.descricao" required ng-disabled="ctrl.apostaFinalizada()">
+                                <span ng-class="error" ng-show="apostaForm.ctrl.descricao.$error.required && apostaForm.ctrl.descricao.$dirty">Descrição é obrigatório</span>
+                        </div>
+                        <div class="form-group col-md-12">
+                                <label>Data Final</label>
+                                <input class="form-control" placeholder="Data Final" id="dateFinalizacao" name="dateFinalizacao" type="text" ng-model="ctrl.aposta.dateFinalizacao" required apostas-date ng-disabled="ctrl.apostaFinalizada()">
+                                <span ng-class="error" ng-show="apostaForm.ctrl.dateFinalizacao.$error.required && apostaForm.ctrl.dateFinalizacao.$dirty">Date Final é obrigatória</span>
+                        </div>
+                </fieldset>
+
+                <div ng-hide="ctrl.apostaFinalizada()">
+                        <h3>Pessoas</h3>
+                        <fieldset>
+                                <div class="form-group col-md-12">
+                                        <select class="form-control" name="usuario" ng-options="usu.nome for usu in ctrl.usuarios track by usu.id" ng-model="ctrl.palpite.usuario" >
+                                                <option value="">Selecione...</option>
+                                        </select>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                        <label class="control-label">Palpite</label>
+                                        <input class="form-control" placeholder="Palpite" name="palpite_descricao" type="text" autofocus ng-model="ctrl.palpite.descricao">
+                                </div>
+
+                                <div class="form-group col-md-5" >
+                                </div>
+                                <div class="form-group col-md-2" >
+                                        <input type="button" class="btn btn-lg btn-primary btn-large" value="Adicionar Palpite" ng-click="ctrl.adicionarPalpite()">
+                                </div>
+                        </fieldset>
+                </div>
+
+                <table class="table table-bordered" ng-show="ctrl.aposta.palpites.length > 0">
+                        <thead>
+                                <tr>
+                                        <th>Nome</th>
+                                        <th>Palpite</th>
+                                        <th>Ações</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                                <tr ng-repeat="pal in ctrl.aposta.palpites">
+                                        <td>{{pal.usuario.nome}}</td>
+                                        <td>{{pal.descricao}}</td>
+                                        <td>
+                                                <input type="button" class="btn btn-lg btn-danger" value="Remover" ng-click="ctrl.removerPalpite($index)" ng-hide="ctrl.apostaFinalizada()">
+                                                <input type="button" class="btn btn-lg btn-info" value="Declarar Vencedor" ng-click="ctrl.declararVencedor($index)" id="bt_vencedor_{{$index}}" ng-show="!pal.venceu && !ctrl.apostaFinalizada()">
+                                                <input type="button" class="btn btn-lg btn-primary" value="Desfazer Vencedor" ng-click="ctrl.desfazerVencedor($index)" id="bt_rem_vencedor_{{$index}}" ng-show="pal.venceu && !ctrl.apostaFinalizada()">
+                                        </td>
+                                </tr>
+                        </tbody>
+                </table>
+
+                <fieldset ng-show="ctrl.aposta.palpites.length > 0">
+                        <div class="form-group col-md-5" >
+                        </div>
+                        <div class="form-group col-md-2" >
+                                <input type="submit" class="btn btn-lg btn-success btn-large" value="Salvar Aposta" ng-hide="ctrl.apostaFinalizada()">
+                        </div>
+                </fieldset>
+        </form>
+</div>

@@ -1,0 +1,29 @@
+<div ng-controller="UsuarioController as ctrl">
+        <apostas-mensagem valor="ctrl.mensagem"></apostas-mensagem>
+        <br />
+        <form role="form" name="usuarioForm" ng-submit="ctrl.salvar()">
+                <h3>Usuário</h3>
+                <fieldset>
+                        <div class="form-group col-md-12">
+                                <label class="control-label">Nome</label>
+                                <input class="form-control" placeholder="Nome" name="nome" type="text" autofocus ng-model="ctrl.usuario.nome" required>
+                                <span ng-class="error" ng-show="usuarioForm.ctrl.nome.$error.required && usuarioForm.ctrl.nome.$dirty">Nome é obrigatório</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                                <label>Login</label>
+                                <input class="form-control" placeholder="Login" name="login" type="login" autofocus ng-model="ctrl.usuario.login" required>
+                                <span ng-class="error" ng-show="usuarioForm.ctrl.login.$error.required && usuarioForm.ctrl.login.$dirty">Login é obrigatório</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                                <label>Senha</label>
+                                <input class="form-control" placeholder="Senha" name="senha" type="password" value="" ng-model="ctrl.usuario.senha" required>
+                                <span ng-class="error" ng-show="usuarioForm.ctrl.senha.$error.required && usuarioForm.ctrl.senha.$dirty">Senha é obrigatório</span>
+                        </div>
+                        <div class="form-group col-md-5" >
+                        </div>
+                        <div class="form-group col-md-2" >
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Salvar">
+                        </div>
+                </fieldset>
+        </form>
+</div>

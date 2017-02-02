@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+        <security:http disable-url-rewriting="false">
+		<security:headers disabled="true"/>
+		<security:csrf disabled="true"/>
+                <security:form-login login-page="/login.jsp"/>
+		<security:logout logout-url="/j_spring_security_logout" logout-success-url="/pages/principal/"/>
+                
+		<security:intercept-url pattern="/login*"               access="permitAll"/>
+                <security:intercept-url pattern="/index.html"           access="permitAll"/>
+                <security:intercept-url pattern="/**"                   access="permitAll"/>
+		<!--<security:intercept-url pattern="/**"                   access="hasRole('GERAL')"/>-->
+		
+	</security:http>
+        
+        <security:global-method-security pre-post-annotations="enabled" />
+        
+	<security:authentication-manager alias="authenticationManager">
+                <security:authentication-provider user-service-ref="customUserDetailService" >
+                        <security:password-encoder hash="md5" />
+                </security:authentication-provider>
+        </security:authentication-manager>
+<!--
+        <bean id="authenticationSuccessHandler" parent="baseTransactionProxy">
+                <property name="target">
+                        <bean  class="com.jopss.apostas.servicos.security.CustomAuthenticationSuccessFilter" >
+                                <property name="defaultTargetUrl" value="/pages/principal/" />
+                        </bean>
+                </property>
+        </bean>-->
+        
+        <bean id="customUserDetailService" class="com.jopss.apostas.servicos.security.CustomUserDetailService" />
+
+</beans>
