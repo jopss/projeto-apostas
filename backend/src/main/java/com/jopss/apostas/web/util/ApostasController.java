@@ -1,8 +1,9 @@
 package com.jopss.apostas.web.util;
 
-import com.jopss.apostas.servicos.security.SessionUserSupport;
+import com.jopss.apostas.excecoes.ApostasException;
 import com.jopss.apostas.util.NumbersUtils;
 import com.jopss.apostas.servicos.ParametrosSistema;
+import com.jopss.apostas.servicos.security.SegurancaServico;
 import com.jopss.apostas.web.form.Resposta;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.PropertyValuesEditor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -23,11 +25,11 @@ public abstract class ApostasController {
 	
 	protected Logger log = Logger.getLogger(this.getClass());
 	
-	@Autowired
-	protected SessionUserSupport sessionUserSupport;
-	
         @Autowired
         protected ParametrosSistema parametrosSistema;
+        
+        @Autowired
+        protected SegurancaServico segurancaServico;
         
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
@@ -54,9 +56,19 @@ public abstract class ApostasController {
 //                        resposta.addErroLogin(e.);
 //			resposta = end.retornarErroLogin((SegurancaException) e, response);
 //		} 
+                else if (e instanceof TransactionSystemException){
+                        log.error(e);
+                        resposta.addErros((TransactionSystemException)e, response);
+                }
+                else if (e instanceof ApostasException){
+                        log.error(e);
+                        resposta.addErro(e.getMessage(), response);
+                }
                 else {
+                        log.error(e);
                         resposta.addErroGenerico(e, response);
 		}
 		return resposta;
 	}
+        
 }

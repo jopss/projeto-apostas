@@ -12,7 +12,7 @@ import java.text.MessageFormat;
 /**
  * Formatacao e conversao de valores diversos.
  */
-public final class FormatterAndValues {
+public final class FormatadorUtil {
 	
 	/**
 	 * Retorna o valor de uma chave do arquivo "messages.properties".
@@ -20,7 +20,7 @@ public final class FormatterAndValues {
 	public static String getMessage(String key, String... args) {
 
 		try {
-			InputStream istream = FormatterAndValues.class.getClassLoader().getResourceAsStream("messages.properties");
+			InputStream istream = FormatadorUtil.class.getClassLoader().getResourceAsStream("messages.properties");
 			if (istream != null) {
 				Properties props = new Properties();
 				props.load(istream);
@@ -43,7 +43,7 @@ public final class FormatterAndValues {
 	public static String getMessage(String file, String key) {
 
 		try {
-			InputStream istream = FormatterAndValues.class.getClassLoader().getResourceAsStream(file);
+			InputStream istream = FormatadorUtil.class.getClassLoader().getResourceAsStream(file);
 			if (istream != null) {
 				Properties props = new Properties();
 				props.load(istream);

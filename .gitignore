@@ -3,3 +3,5 @@ backend/.project
 backend/.settings/
 backend/nb-configuration.xml
 backend/target/
+frontend-angular-1/node_modules
+frontend-angular-1/dist

@@ -1,6 +1,6 @@
 package com.jopss.apostas.web.form;
 
-import com.jopss.apostas.util.FormatterAndValues;
+import com.jopss.apostas.util.FormatadorUtil;
 import java.io.Serializable;
 import java.sql.BatchUpdateException;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class Resposta implements Serializable {
                         this.configureResponse(HTTP_STATUS_SUCCESS, resp);
                 }
                 if(msg!=null){
-                        getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
+                        getMensagens().add(new Retorno("mensagem", FormatadorUtil.getMessage(msg)));
                 }
         }
 
@@ -46,12 +46,12 @@ public class Resposta implements Serializable {
         public void setLista(List lista, HttpServletResponse resp, String msg) {
                 this.lista = lista;
                 this.configureResponse(HTTP_STATUS_SUCCESS, resp);
-                getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
+                getMensagens().add(new Retorno("mensagem", FormatadorUtil.getMessage(msg)));
         }
 
         public void setMensagemSucesso(String msg, HttpServletResponse resp) {
                 this.configureResponse(HTTP_STATUS_SUCCESS, resp);
-                getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(msg)));
+                getMensagens().add(new Retorno("mensagem", FormatadorUtil.getMessage(msg)));
         }
 
         /**
@@ -87,7 +87,7 @@ public class Resposta implements Serializable {
          */
         public void addErro(String str, HttpServletResponse resp) {
                 this.configureResponse(HTTP_STATUS_VALIDATION, resp);
-                getMensagens().add(new Retorno("mensagem", FormatterAndValues.getMessage(str)));
+                getMensagens().add(new Retorno("mensagem", FormatadorUtil.getMessage(str)));
         }
         
         public void addErroLogin(String str, HttpServletResponse resp) {

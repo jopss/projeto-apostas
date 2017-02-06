@@ -37,6 +37,10 @@ public class Permissao extends Modelos {
         @OneToOne
         private Permissao permissao_pai;
 
+        public boolean isAdmin(){
+                return this.papel.equals( RoleEnum.ROLE_ADMIN );
+        }
+        
         @Override
         public Long getId() {
                 return id;

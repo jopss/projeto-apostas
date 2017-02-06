@@ -35,4 +35,11 @@
                 <property name="defaultContentType" value="application/json" />
         </bean>
         
+        <mvc:interceptors>
+                <mvc:interceptor>
+                        <mvc:mapping path="/**"/>
+                        <bean class="com.jopss.apostas.servicos.security.SegurancaInterceptor"/>
+                </mvc:interceptor>
+        </mvc:interceptors>
+        
 </beans>

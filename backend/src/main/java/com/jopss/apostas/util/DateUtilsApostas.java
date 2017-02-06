@@ -18,6 +18,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.DurationFieldType;
+import org.joda.time.Hours;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 
@@ -340,5 +341,22 @@ public final class DateUtilsApostas {
 			return matcher.group(1);
 		}
 		return null;
+	}
+        
+        /**
+	 * Retorna a diferenca em horas entre duas datas
+	 * <p>
+	 * Caso a data inicial for maior que a data final a diferenca sera negativa
+	 * </p>
+	 * 
+	 * @param dataInicial Data Inicial
+	 * @param dataFinal Data Final
+	 * @return Quantidade de horas entre as duas datas
+	 */
+	public static int getDiferencaHoras(Date dataInicial, Date dataFinal) {
+		DateTime periodoInicial = new DateTime(dataInicial);
+		DateTime periodoFinal = new DateTime(dataFinal);
+
+		return Hours.hoursBetween(periodoInicial, periodoFinal).getHours();
 	}
 }

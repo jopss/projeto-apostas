@@ -64,3 +64,14 @@ CREATE TABLE palpite(
   CONSTRAINT palpite_usuario_fkey FOREIGN KEY (usuario_id) REFERENCES usuario(id),
   CONSTRAINT palpite_aposta_fkey FOREIGN KEY (aposta_id) REFERENCES aposta(id)
 );
+
+CREATE TABLE segurancaapi (
+    id bigint NOT NULL,
+    datacriacao timestamp,
+    dataatualizacao timestamp,
+    token varchar(1000) NOT NULL,
+    expiracaoToken timestamp,
+    usuario_id  bigint NOT NULL,
+    CONSTRAINT segurancaapi_pkey PRIMARY KEY (id),
+    CONSTRAINT segurancaapi_usuario_fkey FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+);

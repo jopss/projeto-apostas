@@ -1,6 +1,7 @@
 package com.jopss.apostas.modelos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jopss.apostas.modelos.enums.RoleEnum;
 import com.jopss.apostas.util.Modelos;
 import java.util.List;
 import javax.persistence.Entity;
@@ -34,6 +35,17 @@ public class Perfil extends Modelos {
         @OneToMany(mappedBy = "perfil")
         private List<Usuario> usuarios;
 
+        public boolean contemRoleOuAdmin(RoleEnum roleConfigurada) {
+                if(permissoes!=null && !permissoes.isEmpty()){
+                        for(Permissao perm : permissoes){
+                                if(perm.getPapel().equals(roleConfigurada) || perm.isAdmin()){
+                                        return true;
+                                }
+                        }
+                }
+                return false;
+        }
+        
         @Override
         public Long getId() {
                 return id;

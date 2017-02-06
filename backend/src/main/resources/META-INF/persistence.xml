@@ -9,6 +9,7 @@
                 <class>com.jopss.apostas.modelos.Palpite</class>
                 <class>com.jopss.apostas.modelos.Perfil</class>
                 <class>com.jopss.apostas.modelos.Permissao</class>
+                <class>com.jopss.apostas.modelos.SegurancaAPI</class>
                 
                 <properties>
                         <property name="hibernate.hbm2ddl.auto" value="none"/>

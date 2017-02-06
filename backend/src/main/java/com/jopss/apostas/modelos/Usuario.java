@@ -2,7 +2,7 @@ package com.jopss.apostas.modelos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jopss.apostas.servicos.repositorio.UsuarioRepository;
-import com.jopss.apostas.util.FormatterAndValues;
+import com.jopss.apostas.util.FormatadorUtil;
 import com.jopss.apostas.util.Modelos;
 import java.util.List;
 import javax.persistence.Column;
@@ -79,7 +79,7 @@ public class Usuario extends Modelos {
          * Regras de unicidade de login e obrigatoriedade está ou banco.
          */
         public Usuario salvar() {
-                this.setSenha( FormatterAndValues.encryptMD5(this.getSenha()) );
+                this.setSenha(FormatadorUtil.encryptMD5(this.getSenha()) );
                 return this.getRepository().save(this);
         }
         

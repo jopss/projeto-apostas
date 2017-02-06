@@ -9,4 +9,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
         @EntityGraph(value = "perfil.permissoes", type = EntityGraph.EntityGraphType.FETCH)
         Usuario findByLogin(String login);
         
+        @EntityGraph(value = "perfil.permissoes", type = EntityGraph.EntityGraphType.FETCH)
+        Usuario findByLoginAndSenha(String login, String senha);
+        
 }
