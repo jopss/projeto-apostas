@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
  * Objeto de resposta para a verificacao de sessao e permissoes.
  * Contem alem dos dados da Resposta, um atributo de perfil do usuario logado.
  */
-public class RespostaSessao extends Resposta {
+public class RespostaLogin extends Resposta {
         
         private Perfil perfil; 
 

@@ -1,10 +1,8 @@
 package com.jopss.apostas.modelos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jopss.apostas.servicos.repositorio.UsuarioRepository;
 import com.jopss.apostas.util.FormatadorUtil;
 import com.jopss.apostas.util.Modelos;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +14,6 @@ import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedSubgraph;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.Size;
-import org.apache.commons.collections.IteratorUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -58,29 +55,9 @@ public class Usuario extends Modelos {
                 this.login = login;
         }
         
-        @Override
-        protected UsuarioRepository getRepository(){
-                return (UsuarioRepository) super.getRepository();
-        }
-        
-        public Usuario buscarPorId() {
-		return this.getRepository().findOne(id);
-	}
-        
-        public Usuario buscarPorLogin(){
-                return this.getRepository().findByLogin(login);
-        }
-        
-        public List<Usuario> buscarTodos(){
-                return IteratorUtils.toList(this.getRepository().findAll().iterator());
-        }
-        
-        /**
-         * Regras de unicidade de login e obrigatoriedade está ou banco.
-         */
-        public Usuario salvar() {
+        public Usuario encriptarSenha() {
                 this.setSenha(FormatadorUtil.encryptMD5(this.getSenha()) );
-                return this.getRepository().save(this);
+                return this;
         }
         
         @Override

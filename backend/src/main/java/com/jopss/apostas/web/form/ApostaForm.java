@@ -2,6 +2,7 @@ package com.jopss.apostas.web.form;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.jopss.apostas.excecoes.DataNaoPermitidaException;
 import com.jopss.apostas.util.JsonDateDeserializer;
 import com.jopss.apostas.util.JsonDateSerializer;
 import java.util.Date;
@@ -17,6 +18,14 @@ public class ApostaForm extends PaginacaoForm{
         private Date dataFinal;
         
         private String descricao;
+        
+        public void validarDatas() throws DataNaoPermitidaException{
+                if (this.getDataInicial() != null && this.getDataFinal() != null) {
+                        if (this.getDataInicial().after(this.getDataFinal())) {
+                                throw new DataNaoPermitidaException("aposta.falha.intervalo_data_invalido");
+                        }
+                }
+        }
 
         public Date getDataInicial() {
                 return dataInicial;

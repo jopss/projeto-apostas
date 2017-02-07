@@ -7,11 +7,9 @@ import java.util.Date;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
-import org.springframework.data.repository.CrudRepository;
 
 /**
  * Classe mae de todas os modelos. Auxilia na estrategia de banco de dados,
@@ -35,9 +33,6 @@ public abstract class Modelos implements Serializable {
 	private Date dataAtualizacao;
         
 	public abstract Long getId();
-        
-        @Transient
-        private CrudRepository repository;
         
 	@Override
 	public int hashCode() {
@@ -66,17 +61,6 @@ public abstract class Modelos implements Serializable {
 		return this.getClass().getName()+"[id=" + getId() + "]";
 	}
         
-        protected <T extends CrudRepository>T getRepository() {
-                if(repository != null){
-                        return (T) repository;
-                }
-                try {
-                        return (T) AppContextUtil.getApplicationContext().getBean(Class.forName("com.jopss.apostas.servicos.repositorio."+this.getClass().getSimpleName()+"Repository"));
-                } catch (ClassNotFoundException ex) {
-                        throw new RuntimeException(ex);
-                }
-	}
-        
 	public boolean isSalvo() {
 		return getId() != null;
 	}
@@ -93,8 +77,4 @@ public abstract class Modelos implements Serializable {
                 return dataAtualizacao;
         }
 
-        public void setRepository(CrudRepository repository) {
-                this.repository = repository;
-        }
-        
 }
