@@ -19,6 +19,9 @@
                         <property name="hibernate.transaction.flush_before_completion" value="false"/>
                         <property name="hibernate.autocommit" value="true"/>
                         <property name="hibernate.jdbc.batch_size" value="50"/>
+                        
+                        <property name="hibernate.id.new_generator_mappings" value="false" />
+                        <property name="hibernate.jdbc.use_scrollable_resultset" value="false" />
                 </properties>
         </persistence-unit>
   

@@ -10,6 +10,9 @@ import com.jopss.apostas.servicos.repositorio.SegurancaRepository;
 import com.jopss.apostas.servicos.repositorio.UsuarioRepository;
 import com.jopss.apostas.util.DateUtilsApostas;
 import com.jopss.apostas.util.FormatadorUtil;
+import com.jopss.apostas.web.form.RetornoLoginForm;
+import com.jopss.apostas.web.util.OptionsFilter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +21,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.oltu.oauth2.as.issuer.MD5Generator;
 import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
 import org.apache.oltu.oauth2.as.request.OAuthTokenRequest;
-import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.common.error.OAuthError.CodeResponse;
 import org.apache.oltu.oauth2.common.error.OAuthError.ResourceResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
-import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.apache.oltu.oauth2.common.message.types.ParameterStyle;
 import org.apache.oltu.oauth2.rs.request.OAuthAccessResourceRequest;
 import org.hibernate.Hibernate;
@@ -164,12 +165,25 @@ public class SegurancaServico {
                 Usuario  usuario = this.usuarioRepository.findByLoginAndSenha(login, FormatadorUtil.encryptMD5(senha));
                 if(usuario == null){
                         throw new UsuarioOuSenhaInvalidaException("Usuário não encontrado.");
+                }else{
+                        Hibernate.initialize(usuario.getPerfil().getPermissoes());
                 }
                 return usuario;
         }
         
+        public RetornoLoginForm retornarErroOAuth(int errorCode, String error, Exception e, HttpServletResponse response) {
+                String descricao = error;
+                if(e!=null){
+                        descricao = e.getMessage()!=null ? e.getMessage() : "NullPointerException";
+                }
+
+                new OptionsFilter().configCorsResponse(response);
+                response.setStatus(errorCode);
+                return new RetornoLoginForm(error, descricao, errorCode);
+	}
+        
         @Transactional(propagation = Propagation.REQUIRES_NEW)
-        public OAuthResponse logarOAuth(HttpServletRequest request) {
+        public RetornoLoginForm logarOAuth(HttpServletRequest request, HttpServletResponse response) {
                 try {
                         OAuthTokenRequest oauthRequest = new OAuthTokenRequest(request);
                         String appClientId = oauthRequest.getClientId();
@@ -178,7 +192,7 @@ public class SegurancaServico {
                         try {
                                 this.validarAcessoAplicativo(appClientId, appClientSecret);
                         } catch (TokenInvalidoException e) {
-                                return this.retornarErroOAuth(HttpServletResponse.SC_UNAUTHORIZED, CodeResponse.UNAUTHORIZED_CLIENT, e);
+                                return this.retornarErroOAuth(HttpServletResponse.SC_FORBIDDEN, "Aplicativo cliente não autorizado.", e, response);
                         }
                         
                         String senha = oauthRequest.getPassword();
@@ -188,7 +202,7 @@ public class SegurancaServico {
                         try {
                                 usuario = this.retornarPorLoginESenha(login, senha);
                         } catch (UsuarioOuSenhaInvalidaException e) {
-                                return this.retornarErroOAuth(HttpServletResponse.SC_UNAUTHORIZED, CodeResponse.UNAUTHORIZED_CLIENT, e);
+                                return this.retornarErroOAuth(HttpServletResponse.SC_FORBIDDEN, "Login e/ou senha inválida.", e, response);
                         }
                         
                         String accessToken = new OAuthIssuerImpl(new MD5Generator()).accessToken();
@@ -197,34 +211,21 @@ public class SegurancaServico {
                         try {
                                 this.atualizarToken(usuario, accessToken, proximaDataExpiracao);
                         } catch (TokenExpiradoException e) {
-                                return this.retornarErroOAuth(HttpServletResponse.SC_UNAUTHORIZED, ResourceResponse.EXPIRED_TOKEN, e);
+                                return this.retornarErroOAuth(HttpServletResponse.SC_FORBIDDEN, "Token expirado.", e, response);
                         } catch (TokenInvalidoException e) {
-                                return this.retornarErroOAuth(HttpServletResponse.SC_BAD_REQUEST, ResourceResponse.INVALID_TOKEN, e);
+                                return this.retornarErroOAuth(HttpServletResponse.SC_BAD_REQUEST, "Token inválido.", e, response);
                         } catch (TokenCriadoException e) {
                                 //token jah criado anteriormente, somente retorna.
                                 proximaDataExpiracao = e.getSegurancaAPI().getExpiracaoToken();
                         }
-
-                        return OAuthASResponse.tokenResponse(HttpServletResponse.SC_OK).setAccessToken(accessToken).setExpiresIn(
-                                this.transformarProximaDataExpiracaoEmSegundos(new Date(), proximaDataExpiracao))
-                                .setParam("nome", usuario.getNome())
-                                .setParam("login", usuario.getLogin())
-                                .setParam("perfil", usuario.getPerfil().getNome())
-                                .buildJSONMessage();
+                        
+                        return new RetornoLoginForm(accessToken, this.transformarProximaDataExpiracaoEmSegundos(new Date(), proximaDataExpiracao), usuario);
 
                 } catch (OAuthProblemException e) {
-                        return this.retornarErroOAuth(HttpServletResponse.SC_UNAUTHORIZED, CodeResponse.INVALID_REQUEST, e);
+                        return this.retornarErroOAuth(HttpServletResponse.SC_FORBIDDEN, CodeResponse.INVALID_REQUEST, e, response);
                 } catch (Exception e) {
-                        return this.retornarErroOAuth(HttpServletResponse.SC_BAD_REQUEST, CodeResponse.SERVER_ERROR, e);
-                }
-        }
-
-        public OAuthResponse retornarErroOAuth(int errorCode, String error, Exception e) {
-                try {
-                        String descricao = e.getMessage();
-                        return OAuthASResponse.errorResponse(errorCode).setError(error + (descricao != null ? " - " + descricao : "")).setErrorDescription(descricao).buildJSONMessage();
-                } catch (OAuthSystemException ex) {
-                        throw new RuntimeException(ex);
+                        e.printStackTrace();
+                        return this.retornarErroOAuth(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, CodeResponse.SERVER_ERROR, e, response);
                 }
         }
 

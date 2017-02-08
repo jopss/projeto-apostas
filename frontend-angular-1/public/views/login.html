@@ -1,25 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="app" ng-cloak >
         <head>
-                <meta charset="utf-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <meta name="description" content="">
-                <meta name="author" content="">
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <meta name="ROBOTS" content="NOINDEX, NOFOLLOW" />
+                <meta http-equiv="Content-Language" content="pt-br" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
                 <title>Apostas Frontend Login</title>
 
-                <!-- Bootstrap Core CSS -->
-                <link href="/template/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
-                <!-- MetisMenu CSS -->
-                <link href="/template/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-
-                <!-- Custom CSS -->
-                <link href="/template/dist/css/sb-admin-2.css" rel="stylesheet">
-
-                <!-- Custom Fonts -->
-                <link href="/template/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+                <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="/node_modules/jquery-ui-dist/jquery-ui.min.css" rel="stylesheet"/>
+                <link href="/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+                <link href="/assets/css/sb-admin-2.css" rel="stylesheet"/>
 
                 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
                 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,18 +20,32 @@
                     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
                 <![endif]-->
                 
+                <script src="/node_modules/angular/angular.min.js"></script>
+                <script src="/node_modules/angular-resource/angular-resource.min.js"></script>
+                <script src="/node_modules/angular-route/angular-route.min.js"></script>
+                <script src="/node_modules/angular-cookies/angular-cookies.min.js"></script>
+                <script src="/node_modules/moment/min/moment-with-locales.min.js"></script>
+                <script src="/node_modules/underscore/underscore-min.js"></script>
+                <script src="/node_modules/restangular/dist/restangular.min.js"></script>
+                <script src="/node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js"></script>
+                <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+                <script src="/node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+                <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
+                <script src="/app/app.js"></script>
+                <script src="/app/app.constants.js"></script>
+                <script src="/app/services/segurancaService.js"></script>
+                <script src="/app/routes.js"></script>
+
+                <script src="/app/diretivas/mensagem.js"></script>
+                <script src="/app/services/loginService.js"></script>
+                <script src="/app/controller/loginController.js"></script>
         </head>
-        <body>
+        <body ng-controller="LoginController as ctrl">
                 <div class="container">
                         <div class="row">
                                 <div class="col-md-12" style="text-align: center">
-                                	<!--
-                                    <c:if test="${not empty sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message}" >
-                                        <div id="msg_security" class="errorHandler alert alert-danger">
-                                                <i class="fa fa-remove-sign"></i> ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
-                                        </div>
-                                    </c:if>
-                                    -->
+                                	<div id="div_mensagem_login" class="hide alert alert-danger"></div>
                                 </div>
                         </div>
                         <div class="row">
@@ -49,13 +55,17 @@
                                                         <h3 class="panel-title">Entre com seu Login</h3>
                                                 </div>
                                                 <div class="panel-body">
-                                                    <form role="form" name="loginForm" action="j_spring_security_check" method="post">
+                                                    <form role="form" name="loginForm" ng-submit="ctrl.logar()">
                                                                 <fieldset>
                                                                         <div class="form-group">
-                                                                                <input id="usuarioForm" class="form-control" placeholder="Login" name="j_username" maxlength="30" type="text" autofocus/>
+                                                                                <input id="usuarioForm" class="form-control" placeholder="Login" name="j_username" maxlength="30" type="text" autofocus ng-model="ctrl.login.j_username" required/>
+
+                                                                                <span ng-class="error" ng-show="ctrl.login.j_username.$error.required && ctrl.login.j_username.$dirty">Login é obrigatório</span>
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <input id="senhaHidden" class="form-control" placeholder="Senha" name="j_password" maxlength="30" type="password"/>
+                                                                                <input id="senhaHidden" class="form-control" placeholder="Senha" name="j_password" maxlength="30" type="password" ng-model="ctrl.login.j_password" required/>
+
+                                                                                <span ng-class="error" ng-show="ctrl.login.j_password.$error.required && ctrl.login.j_password.$dirty">Senha é obrigatória</span>
                                                                         </div>
                                                                         <input type="submit" class="btn btn-lg btn-success btn-block" value="Vai">
                                                                 </fieldset>
@@ -65,18 +75,6 @@
                                 </div>
                         </div>
                 </div>
-
-                <!-- jQuery -->
-                <script src="/template/bower_components/jquery/dist/jquery.min.js"></script>
-
-                <!-- Bootstrap Core JavaScript -->
-                <script src="/template/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-                <!-- Metis Menu Plugin JavaScript -->
-                <script src="/template/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-                <!-- Custom Theme JavaScript -->
-                <script src="/template/dist/js/sb-admin-2.js"></script>
         </body>
 
 </html>

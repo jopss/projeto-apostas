@@ -1,6 +1,7 @@
 package com.jopss.apostas.web.form;
 
 import com.jopss.apostas.util.FormatadorUtil;
+import com.jopss.apostas.web.util.OptionsFilter;
 import java.io.Serializable;
 import java.sql.BatchUpdateException;
 import java.util.ArrayList;
@@ -28,11 +29,15 @@ public class Resposta implements Serializable {
         public void setDado(Object modelo, HttpServletResponse resp) {
                 this.setDado(modelo, resp, "sucesso");
         }
-
+        
         public void setDado(Object modelo, HttpServletResponse resp, String msg) {
+                this.setDado(modelo, resp, HTTP_STATUS_SUCCESS, "sucesso");
+        }
+        
+        public void setDado(Object modelo, HttpServletResponse resp, int status, String msg) {
                 this.dado = modelo;
                 if(resp!=null){
-                        this.configureResponse(HTTP_STATUS_SUCCESS, resp);
+                        this.configureResponse(status, resp);
                 }
                 if(msg!=null){
                         getMensagens().add(new Retorno("mensagem", FormatadorUtil.getMessage(msg)));
@@ -158,13 +163,9 @@ public class Resposta implements Serializable {
         
         private void configureResponse(int status, HttpServletResponse response) {
 		if (response != null) {
+                        new OptionsFilter().configCorsResponse(response);
 			response.setContentType("application/json");
 			response.setStatus(status);
-			response.addHeader("Access-Control-Allow-Origin", "*");
-			response.addHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
-			response.addHeader("Access-Control-Allow-Credentials", "true");
-			response.addHeader("Access-Control-Allow-Headers", "If-Modified-Since, Cache-Control, Pragma, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-			response.addHeader("Access-Control-Max-Age", "3600");
 		}
 	}
 }

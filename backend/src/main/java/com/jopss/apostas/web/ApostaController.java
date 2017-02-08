@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/aposta")
+@RequestMapping(value = "/apostas")
 public class ApostaController extends ApostasController {
         
         @Autowired

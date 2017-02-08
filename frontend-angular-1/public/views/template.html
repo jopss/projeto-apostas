@@ -11,7 +11,6 @@
                 <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
                 <link href="/node_modules/jquery-ui-dist/jquery-ui.min.css" rel="stylesheet"/>
                 <link href="/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-
                 <link href="/assets/css/sb-admin-2.css" rel="stylesheet"/>
 
                 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -35,8 +34,10 @@
 
 
                 <script src="/app/app.js"></script>
-                <script src="/app/routes.js"></script>
                 <script src="/app/app.constants.js"></script>
+                <script src="/app/services/segurancaService.js"></script>
+                <script src="/app/routes.js"></script>
+                <script src="/app/config.js"></script>
 
                 <script src="/app/diretivas/mensagem.js"></script>
                 <script src="/app/diretivas/datepicker.js"></script>
@@ -92,7 +93,7 @@
                                                         </li>
                                                         <li class="divider"></li>
                                                         <li>
-                                                                <a href="/j_spring_security_logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                                                                <a href="#" ng-click="ctrl.logout()"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                                                         </li>
                                                 </ul>
                                         </li>
@@ -148,10 +149,12 @@
                                                                                         <fieldset>
                                                                                                 <div class="form-group">
                                                                                                         <input id="usuarioForm" class="form-control" placeholder="Login" name="j_username" maxlength="30" type="text" autofocus ng-model="ctrl.login.j_username" required/>
+
                                                                                                         <span ng-class="error" ng-show="ctrl.login.j_username.$error.required && ctrl.login.j_username.$dirty">Login é obrigatório</span>
                                                                                                 </div>
                                                                                                 <div class="form-group">
                                                                                                         <input id="senhaHidden" class="form-control" placeholder="Senha" name="j_password" maxlength="30" type="password" ng-model="ctrl.login.j_password" required/>
+
                                                                                                         <span ng-class="error" ng-show="ctrl.login.j_password.$error.required && ctrl.login.j_password.$dirty">Senha é obrigatória</span>
                                                                                                 </div>
                                                                                                 <input type="submit" class="btn btn-lg btn-success btn-block" value="Vai">

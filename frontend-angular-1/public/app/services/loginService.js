@@ -1,14 +1,19 @@
-appMain.service("Login", ["Restangular", "CONST", function (Restangular, CONST) {
-                this.logar = function (login) {
-                        var data = 'j_username=' + login.j_username + '&j_password=' + login.j_password;
-                        return Restangular.one(CONST.url + "j_spring_security_check")
-                                .customPOST(
-                                        data, null, null, {'Content-Type': "application/x-www-form-urlencoded; charset=UTF-8"}
-                                );
+appMain.service("Login", ["Restangular", "CONST", "$window", function (Restangular, CONST, $window) {
+                this.logar = function (credentials) {
+                        var dados = {
+                            client_id: 'exemploaplicativocliente',
+                            client_secret: '9834ba657bb2c60b5bb53de6f4201905',
+                            username: credentials.j_username,
+                            password: credentials.j_password,
+                            grant_type: 'password'
+                        };
+
+                        return Restangular.one(CONST.url + "api/usuario/logar").customPOST(dados);
                 };
                 
                 this.verificar = function(){
                         return Restangular.one(CONST.url + "api/usuario/verificar/").get();
                 };
+
         }
 ]);
