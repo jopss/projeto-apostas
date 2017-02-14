@@ -8,7 +8,8 @@
                                 id: "=",
                                 papeis: "=",
                                 mostrarMensagem: "=",
-                                mensagem: "="
+                                mensagem: "=",
+                                substituir: "="
                         },
                         link: function (scope, element, attrs, controller) {
                                 $rootScope.$watch(function(){
@@ -17,13 +18,19 @@
                                         obj.papeis = attrs.papeis;
                                         obj.mostrarMensagem = attrs.mostrarMensagem;
                                         obj.mensagem = attrs.mensagem;
+                                        obj.substituir = attrs.substituir;
                                         obj.permissoes = $rootScope.permissoes;
                                         return obj;
                                 }, verificarPapel, true);
 
                                 function verificarPapel(objValor) {
+                                        if(angular.isUndefined(objValor.substituir)){
+                                                objValor.substituir = false;
+                                        }
+
                                         var permitido = false;
                                         if(objValor.permissoes!=null){
+
                                                 jQuery.each(objValor.permissoes, function (i, rootPapel) {
                                                         if(rootPapel == objValor.papeis){
                                                                 permitido = true;
@@ -39,10 +46,10 @@
                                                         }
                                                         $("#"+objValor.id).html(msg);
                                                 }else{
-                                                        $("#"+objValor.id).hide();
+                                                        abrirOuEsconderConteudo($("#"+objValor.id), false, objValor.substituir);
                                                 }
                                         }else{
-                                                $("#"+objValor.id).show();
+                                                abrirOuEsconderConteudo($("#"+objValor.id), true, objValor.substituir);
                                         }
                                 }
                         },
@@ -52,4 +59,27 @@
                         transclude: true
                 };
         });
+
+        function abrirOuEsconderConteudo(jcomp, abrir, substituir) {
+                if (angular.isDefined(jcomp)) {
+                        var par = jcomp.closest("li");
+                        if(!abrir){
+                                jcomp.hide();
+                        }else{
+                                if (par!= null && substituir) {
+                                        //somente para menu lateral.
+                                        //retira o '<div ng-transclude>' em volta do conteudo, colocando dentro da tag original. Sem isso quebra layout.
+                                        par.html(jcomp.html());
+                                        if (abrir) {
+                                                par.show();
+                                        } else {
+                                                par.hide();
+                                        }
+                                        jcomp.remove();
+                                }else{
+                                        jcomp.show();
+                                }
+                        }
+                }
+        }
 })();

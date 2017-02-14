@@ -4,10 +4,10 @@
         <h3>Listagem de Apostas</h3>
         <form role="form" name="aposta-form" ng-submit="ctrl.buscar()">
                 <div class="form-group col-md-6" >
-                        <input class="form-control"  placeholder="Data Inicial" name="dataInicial" type="text" ng-model="ctrl.form.dataInicial" required />
+                        <input id="dataInicial" class="form-control"  placeholder="Data Inicial" name="dataInicial" type="text" ng-model="ctrl.form.dataInicial" required apostas-date />
                 </div>
                 <div class="form-group col-md-6" >
-                        <input class="form-control"  placeholder="Data Final" name="dataFinal" type="text" ng-model="ctrl.form.dataFinal" required />
+                        <input id="dataFinal" class="form-control"  placeholder="Data Final" name="dataFinal" type="text" ng-model="ctrl.form.dataFinal" required apostas-date />
                 </div>
                 <div class="form-group col-md-12" >
                         <input class="form-control" placeholder="Descrição" name="descricao" type="text" ng-model="ctrl.form.descricao" />
@@ -23,15 +23,15 @@
                         <tr>
                                 <th>Descrição</th>
                                 <th>Data Final</th>
-                                <th>Venceu ?</th>
-                                <th>Ações</th>
+                                <th>Venceu?</th>
+                                <th><aposta-permissao id="div_perm_acoes_dash_titulo" papeis="ROLE_ADMIN">Ações</aposta-permissao></th>
                         </tr>
                 </thead>
                 <tbody>
                         <tr ng-repeat="aposta in ctrl.apostas">
                                 <td>{{aposta.descricao}}</td>
                                 <td>{{aposta.dateFinalizacao| date:'dd/MM/yyyy'}}</td>
-                                <td>-</td>
+                                <td>{{aposta.vendedor ? aposta.vencedor.usuario.nome : '-'}}</td>
                                 <td>
                                         <aposta-permissao id="div_perm_acoes_dash" papeis="ROLE_ADMIN">
                                                 <input type="button" class="btn btn-lg btn-info" value="Editar" ng-click="ctrl.editar(aposta.id)"/>

@@ -62,7 +62,7 @@ public abstract class ApostasController {
                 }
                 else if (e instanceof ApostasException){
                         log.error(e);
-                        resposta.addErro(e.getMessage(), response);
+                        resposta.addValidacao(e.getMessage(), response);
                 }
                 else {
                         log.error(e);

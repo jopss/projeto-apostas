@@ -28,7 +28,7 @@
 
                 ctrl.apostaFinalizada = function () {
                         if (ctrl.aposta.dateFinalizacao != null) {
-                                return new Date() > moment(ctrl.aposta.dateFinalizacao, "DD/MM/YYYY").toDate();
+                                return ctrl.aposta.id && new Date() > moment(ctrl.aposta.dateFinalizacao, "DD/MM/YYYY").toDate();
                         }
                         return false;
                 };

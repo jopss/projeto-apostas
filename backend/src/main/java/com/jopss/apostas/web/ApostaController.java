@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(value = "/apostas")
+@RequestMapping(value = "/aposta")
 public class ApostaController extends ApostasController {
         
         @Autowired
@@ -67,8 +67,8 @@ public class ApostaController extends ApostasController {
         @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
         public Resposta salvar(@RequestBody Aposta aposta, HttpServletResponse resp) throws ApostasException {
                 aposta.validarDataFinalizacao();
-                aposta = this.apostaRepository.save(aposta);
                 aposta.preencherPalpites();
+                aposta = this.apostaRepository.save(aposta);
                 
                 Resposta resposta = new Resposta();
                 resposta.setDado(aposta, resp, "aposta.sucesso");

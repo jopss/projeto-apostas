@@ -4,12 +4,12 @@
         <form role="form" name="apostaForm" ng-submit="ctrl.salvar()">
                 <h3>Aposta</h3>
                 <fieldset>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                                 <label class="control-label">Descrição</label>
                                 <input class="form-control" placeholder="Descrição" name="descricao" type="text" autofocus ng-model="ctrl.aposta.descricao" required ng-disabled="ctrl.apostaFinalizada()">
                                 <span ng-class="error" ng-show="apostaForm.ctrl.descricao.$error.required && apostaForm.ctrl.descricao.$dirty">Descrição é obrigatório</span>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
                                 <label>Data Final</label>
                                 <input class="form-control" placeholder="Data Final" id="dateFinalizacao" name="dateFinalizacao" type="text" ng-model="ctrl.aposta.dateFinalizacao" required apostas-date ng-disabled="ctrl.apostaFinalizada()">
                                 <span ng-class="error" ng-show="apostaForm.ctrl.dateFinalizacao.$error.required && apostaForm.ctrl.dateFinalizacao.$dirty">Date Final é obrigatória</span>
@@ -17,15 +17,16 @@
                 </fieldset>
 
                 <div ng-hide="ctrl.apostaFinalizada()">
-                        <h3>Pessoas</h3>
+                        <h3>Opiniões</h3>
                         <fieldset>
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
+                                        <label class="control-label">Pessoa</label>
                                         <select class="form-control" name="usuario" ng-options="usu.nome for usu in ctrl.usuarios track by usu.id" ng-model="ctrl.palpite.usuario" >
                                                 <option value="">Selecione...</option>
                                         </select>
                                 </div>
 
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                         <label class="control-label">Palpite</label>
                                         <input class="form-control" placeholder="Palpite" name="palpite_descricao" type="text" autofocus ng-model="ctrl.palpite.descricao">
                                 </div>

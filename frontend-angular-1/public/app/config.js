@@ -29,11 +29,11 @@ appMain.run(function ($rootScope, $templateCache, $route, Login) {
                 //a toda rota verifica sessao expirada e permissoes
                 Login.verificar()
                         .then(function (result) {
-                                if(result != null){
-                                        if(result.perfil != null){
+                                if(result != null && result.dado != null){
+                                        if(result.dado.perfil != null){
                                                 $rootScope.permissoes = new Array();
-                                                jQuery.each(result.perfil.permissoes, function (i, permissao) {
-                                                        $rootScope.permissoes.push(permissao.papel);
+                                                jQuery.each(result.dado.permissoes, function (i, permissao) {
+                                                        $rootScope.permissoes.push(permissao);
                                                 });
                                         }
                                         

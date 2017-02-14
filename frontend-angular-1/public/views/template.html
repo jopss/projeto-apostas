@@ -102,18 +102,19 @@
                                 <div class="navbar-default sidebar" role="navigation">
                                         <div class="sidebar-nav navbar-collapse">
                                                 <ul class="nav" id="side-menu">
-                                                        <li>
-                                                                <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Principal</a>
-                                                        </li>
-                                                        <!-- <aposta-permissao id="div_perm_menu_aposta" papeis="ROLE_ADMIN"> -->
-                                                                <li>
-                                                                        <a href="#/aposta"><i class="fa fa-table fa-fw"></i> Nova Aposta</a>
-                                                                </li>
-                                                                <li>
-                                                                        <a href="#/usuario"><i class="fa fa-table fa-fw"></i>Cadastro de Usuário</a>
-                                                                </li>
-                                                        <!-- </aposta-permissao> -->
-
+                                                    <li id="li_menu_principal">
+                                                        <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Principal</a>
+                                                    </li>
+                                                    <li id="li_menu_aposta">
+                                                        <aposta-permissao id="div_perm_menu_aposta" papeis="ROLE_ADMIN" substituir="true">
+                                                            <a href="#/aposta"><i class="fa fa-table fa-fw"></i> Nova Aposta</a>
+                                                        </aposta-permissao>
+                                                    </li>
+                                                    <li id="li_menu_usuario">
+                                                        <aposta-permissao id="div_perm_menu_usuario" papeis="ROLE_ADMIN" substituir="true">
+                                                            <a href="#/usuario"><i class="fa fa-table fa-fw"></i>Cadastro de Usuário</a>
+                                                        </aposta-permissao>
+                                                    </li>
                                                 </ul>
                                         </div>
                                 </div>

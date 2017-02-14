@@ -15,7 +15,7 @@ import org.springframework.transaction.TransactionSystemException;
 public class Resposta implements Serializable {
 
         private static final int HTTP_STATUS_ERROR = 500;
-        private static final int HTTP_STATUS_VALIDATION = 403;
+        private static final int HTTP_STATUS_VALIDATION = 406;
         private static final int HTTP_STATUS_SUCCESS = 200;
 
         private Object dado;
@@ -91,15 +91,15 @@ public class Resposta implements Serializable {
          * @param resp HttpServletResponse
          */
         public void addErro(String str, HttpServletResponse resp) {
+                this.configureResponse(HTTP_STATUS_ERROR, resp);
+                getMensagens().add(new Retorno("mensagem", FormatadorUtil.getMessage(str)));
+        }
+        
+        public void addValidacao(String str, HttpServletResponse resp) {
                 this.configureResponse(HTTP_STATUS_VALIDATION, resp);
                 getMensagens().add(new Retorno("mensagem", FormatadorUtil.getMessage(str)));
         }
         
-        public void addErroLogin(String str, HttpServletResponse resp) {
-                this.configureResponse(HTTP_STATUS_SUCCESS, resp);
-                getMensagens().add(new Retorno("mensagem", str));
-        }
-
         /**
          * Adiciona qualquer mensagem de validacao de campos BeanValidator,
          * alterando o Status HTTP relativo.

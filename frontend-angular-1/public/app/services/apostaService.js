@@ -1,6 +1,6 @@
 appMain.service("Aposta", ["Restangular", "CONST", function (Restangular, CONST) {
                 this.buscarPaginaAtual = function (apostaForm) {
-                        return Restangular.one(CONST.url + "api/apostas/pagina/" +getParamCache()).customPOST(apostaForm);
+                        return Restangular.one(CONST.url + "api/aposta/pagina/" +getParamCache()).customPOST(apostaForm);
                 };
                 this.salvar = function (aposta) {
                         return Restangular.one(CONST.url + "api/aposta/").customPOST(aposta);

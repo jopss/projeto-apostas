@@ -1,6 +1,5 @@
 package com.jopss.apostas.modelos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jopss.apostas.util.FormatadorUtil;
 import com.jopss.apostas.util.Modelos;
 import javax.persistence.Column;
@@ -13,6 +12,7 @@ import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedSubgraph;
 import javax.persistence.TableGenerator;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -40,7 +40,7 @@ public class Usuario extends Modelos {
         @Size(min = 1)
         private String senha;
         
-        @JsonIgnore //por seguranca tira os perfis das consultas.
+        @NotNull
         @ManyToOne(optional = false)
         private Perfil perfil;
 

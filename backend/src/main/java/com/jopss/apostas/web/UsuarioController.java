@@ -1,8 +1,10 @@
 package com.jopss.apostas.web;
 
 import com.jopss.apostas.excecoes.TokenInvalidoException;
+import com.jopss.apostas.modelos.Perfil;
 import com.jopss.apostas.modelos.Usuario;
 import com.jopss.apostas.modelos.enums.RoleEnum;
+import com.jopss.apostas.servicos.repositorio.PerfilRepository;
 import com.jopss.apostas.servicos.repositorio.UsuarioRepository;
 import com.jopss.apostas.servicos.security.annotation.Privado;
 import com.jopss.apostas.web.form.Resposta;
@@ -25,6 +27,9 @@ public class UsuarioController extends ApostasController {
 
         @Autowired
         private UsuarioRepository usuarioRepository;
+        
+        @Autowired
+        private PerfilRepository perfilRepository;
 
         @Privado(role = RoleEnum.ROLE_GERAL)
         @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +54,17 @@ public class UsuarioController extends ApostasController {
                 return resposta;
         }
 
+        @Privado(role = RoleEnum.ROLE_GERAL)
+        @RequestMapping(value = "/perfis/todos", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+        @ResponseBody
+        public Resposta buscarTodosPerfis(HttpServletResponse resp, HttpSession session) {
+                List<Perfil> lista = IteratorUtils.toList(this.perfilRepository.findAll().iterator());
+
+                Resposta resposta = new Resposta();
+                resposta.setLista(lista, resp);
+                return resposta;
+        }
+        
         @Privado(role = RoleEnum.ROLE_GERAL)
         @RequestMapping(value = "/logado", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
         @ResponseBody

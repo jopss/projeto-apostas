@@ -73,6 +73,15 @@ public class Aposta extends Modelos {
                         palpite.setAposta(this);
                 }
         }
+        
+        public Palpite getVencedor(){
+                for(Palpite p : this.getPalpites()){
+                        if(p.getVenceu()){
+                                return p;
+                        }
+                }
+                return null;
+        }
 
         @Override
         public Long getId() {

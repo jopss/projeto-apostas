@@ -7,6 +7,10 @@ appMain.service("Usuario", ["Restangular", "CONST", function (Restangular, CONST
                         return Restangular.one(CONST.url + "api/usuario/todos" +getParamCache()).get();
                 };
 
+                this.buscarPerfis = function () {
+                        return Restangular.one(CONST.url + "api/usuario/perfis/todos" +getParamCache()).get();
+                };
+
                 this.buscarLogado = function () {
                         return Restangular.one(CONST.url + "api/usuario/logado" +getParamCache()).get();
                 }

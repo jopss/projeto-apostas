@@ -40,7 +40,7 @@ public class RetornoLoginForm {
 		this.status = 200;
                 
                 for(Permissao p : usuario.getPerfil().getPermissoes()){
-                        permissoes.add(p.getNome());
+                        permissoes.add(p.getPapel().name());
                 }
 	}
 

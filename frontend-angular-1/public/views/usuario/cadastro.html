@@ -9,16 +9,23 @@
                                 <input class="form-control" placeholder="Nome" name="nome" type="text" autofocus ng-model="ctrl.usuario.nome" required>
                                 <span ng-class="error" ng-show="usuarioForm.ctrl.nome.$error.required && usuarioForm.ctrl.nome.$dirty">Nome é obrigatório</span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                                 <label>Login</label>
                                 <input class="form-control" placeholder="Login" name="login" type="login" autofocus ng-model="ctrl.usuario.login" required>
                                 <span ng-class="error" ng-show="usuarioForm.ctrl.login.$error.required && usuarioForm.ctrl.login.$dirty">Login é obrigatório</span>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                                 <label>Senha</label>
                                 <input class="form-control" placeholder="Senha" name="senha" type="password" value="" ng-model="ctrl.usuario.senha" required>
                                 <span ng-class="error" ng-show="usuarioForm.ctrl.senha.$error.required && usuarioForm.ctrl.senha.$dirty">Senha é obrigatório</span>
                         </div>
+                        <div class="form-group col-md-4">
+                                <label>Senha</label>
+                                <select class="form-control" name="perfil" ng-options="p.nome for p in ctrl.perfis track by p.id" ng-model="ctrl.usuario.perfil" >
+                                        <option value="">Selecione...</option>
+                                </select>
+                        </div>
+
                         <div class="form-group col-md-5" >
                         </div>
                         <div class="form-group col-md-2" >
